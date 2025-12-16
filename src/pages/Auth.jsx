@@ -1,6 +1,7 @@
 import React from "react";
 import restaurantImage from "../assets/images/restaurantImage.jpg";
 import logo_2 from "../assets/images/logo_2.png";
+import Register from "../components/auth/Register";
 
 const Auth = () => {
   return (
@@ -40,6 +41,8 @@ const Auth = () => {
         <h2 className="text-4xl text-center mt-10 font-semibold text-yellow-400 mg-10">
           Employee Registration
         </h2>
+        {/* components  */}
+        <Register />
 
         <div className="flex justify-center gap-1 mt-6">
           <p className="text-sm text-[#ababab]">Already have an account? </p>
