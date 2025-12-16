@@ -1,12 +1,20 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { getTotalPrice } from "../../redux/slices/cartSlice";
+import { useState } from "react";
+import { MdRadioButtonChecked } from "react-icons/md";
 
 const Bill = () => {
   const cartData = useSelector((state) => state.cart);
   const total = useSelector(getTotalPrice);
   const tax = (total * 10.5) / 100;
   const totalWithText = tax + total;
+
+  const [paymentOption, setPaymentOption] = useState("Cash");
+
+  const paymentOptionHander = (e) => {
+    setPaymentOption(e.currentTarget.innerText);
+  };
 
   return (
     <>
@@ -32,12 +40,24 @@ const Bill = () => {
         </h1>
       </div>
       <div className="flex items-center gap-3 px-5 mt-4">
-        <button className="bg-[#1f1f1f] px-4 py-3 w-full rounded-lg text-[#ababab] font-semibold">
-          Cash
-        </button>
-        <button className="bg-[#1f1f1f] px-4 py-3 w-full rounded-lg text-[#ababab] font-semibold">
+        {["Cash", "Online"].map((option) => {
+          return (
+            <button
+              onClick={(e) => paymentOptionHander(e)}
+              key={option}
+              className="cursor-pointer flex justify-center gap-4 items-center bg-[#1f1f1f] hover:bg-[#1d1d1d] px-4 py-3 w-full rounded-lg text-[#ababab] font-semibold"
+            >
+              {paymentOption === option && (
+                <MdRadioButtonChecked className="text-white" size={20} />
+              )}
+              {option}
+            </button>
+          );
+        })}
+
+        {/* <button className="bg-[#1f1f1f] px-4 py-3 w-full rounded-lg text-[#ababab] font-semibold">
           Online
-        </button>
+        </button> */}
       </div>
 
       <div className="flex items-center gap-3 px-5 mt-4">

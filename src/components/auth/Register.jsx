@@ -1,6 +1,12 @@
 import React from "react";
-
+import { useState } from "react";
+import { MdRadioButtonChecked } from "react-icons/md";
 const Register = () => {
+  const [selectedRole, setSelectedRole] = useState(null);
+  const roleHandler = (e) => {
+    setSelectedRole(e.currentTarget.innerText);
+    console.log("e :", e.currentTarget.innerText);
+  };
   return (
     <div className="">
       <form action="">
@@ -68,10 +74,14 @@ const Register = () => {
             {["Waiter", "Cashier", "Admin"].map((role) => {
               return (
                 <button
+                  onClick={(e) => roleHandler(e)}
                   key={role}
                   type="button"
-                  className="cursor-pointer bg-[#1f1f1f] px-4 py-3 w-full rounded-lg text-[#ababab]"
+                  className="flex items-center justify-around cursor-pointer bg-[#1f1f1f] px-4 py-3 w-full rounded-lg text-[#ababab]"
                 >
+                  {selectedRole === role && (
+                    <MdRadioButtonChecked className="text-white" size={20} />
+                  )}
                   {role}
                 </button>
               );
