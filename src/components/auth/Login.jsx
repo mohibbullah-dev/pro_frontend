@@ -1,4 +1,6 @@
+import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
+import { LoginApi } from "../../https";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -17,9 +19,20 @@ const Login = () => {
     if (!formData.email.trim()) errors.email = "email is required";
     if (!formData.password.trim()) errors.password = "password is required";
     if (Object.keys(errors).length > 0) alert("all fields are required");
-
     console.log("formData :", formData);
+    LoginMutaion.mutate(formData);
   };
+
+  const LoginMutaion = useMutation({
+    mutationFn: (formData) => LoginApi(formData),
+    onSuccess: (res) => {
+      const { data } = res;
+      console.log("LoginData :", data);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
 
   return (
     <div className="">
