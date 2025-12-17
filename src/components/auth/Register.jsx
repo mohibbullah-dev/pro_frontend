@@ -2,22 +2,50 @@ import React from "react";
 import { useState } from "react";
 import { MdRadioButtonChecked } from "react-icons/md";
 const Register = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    password: "",
+    role: "",
+  });
+
+  const errors = {};
+
+  const formHandler = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const submitHandler = (e) => {
+    if (!formData.name.trim()) errors.name = "name is required";
+    if (!formData.phone.trim()) errors.phone = "phone is required";
+    if (!formData.email.trim()) errors.email = "email is required";
+    if (!formData.password.trim()) errors.password = "password is required";
+    if (!formData.role.trim()) errors.role = "role is required";
+    if (Object.keys(errors).length > 0) alert("all fields are required");
+    e.preventDefault();
+
+    console.log("formData :", formData);
+  };
+
   const [selectedRole, setSelectedRole] = useState(null);
   const roleHandler = (e) => {
     setSelectedRole(e.currentTarget.innerText);
-    console.log("e :", e.currentTarget.innerText);
+    setFormData({ ...formData, role: e.currentTarget.innerText });
   };
   return (
     <div className="">
-      <form action="">
+      <form action="" onSubmit={submitHandler}>
         <div>
           <label className="block text-[#ababab] mb-2 text-sm font-medium">
             Employee Name
           </label>
           <div className="flex items-center rounded-lg p-5 px-4 bg-[#1f1f1f]">
             <input
+              value={formData.name}
+              onChange={(e) => formHandler(e)}
               type="text"
-              name="nmae"
+              name="name"
               placeholder="Enter employee name"
               className="bg-transparent flex-1 text-white focus:outline-none"
             />
@@ -30,6 +58,8 @@ const Register = () => {
           </label>
           <div className="flex items-center rounded-lg p-5 px-4 bg-[#1f1f1f]">
             <input
+              value={formData.phone}
+              onChange={(e) => formHandler(e)}
               type="number"
               name="phone"
               placeholder="+01999999999"
@@ -44,6 +74,8 @@ const Register = () => {
           </label>
           <div className="flex items-center rounded-lg p-5 px-4 bg-[#1f1f1f]">
             <input
+              value={formData.email}
+              onChange={(e) => formHandler(e)}
               type="email"
               name="email"
               placeholder="Enter employee email"
@@ -58,6 +90,8 @@ const Register = () => {
           </label>
           <div className="flex items-center rounded-lg p-5 px-4 bg-[#1f1f1f]">
             <input
+              value={formData.password}
+              onChange={(e) => formHandler(e)}
               type="password"
               name="password"
               placeholder="Enter employee password"

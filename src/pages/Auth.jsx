@@ -2,15 +2,19 @@ import React from "react";
 import restaurantImage from "../assets/images/restaurantImage.jpg";
 import logo_2 from "../assets/images/logo_2.png";
 import Register from "../components/auth/Register";
+import { useState } from "react";
+import Login from "../components/auth/Login";
 
 const Auth = () => {
+  const [isRegistered, setIsRegistered] = useState(true);
+
   return (
-    <div className="flex min-h-screen w-full">
+    <div className="flex min-h-screen w-full overflow-y-scroll overflow-hidden">
       {/* Left Section  */}
       <div className="wl/2 relative flex items-center justify-center bg-cover">
         {/* BG Image  */}
         <img
-          className="w-full h-full object-cover"
+          className="w-full h-screen object-cover"
           src={restaurantImage}
           alt="restanrant Image"
         />
@@ -42,12 +46,20 @@ const Auth = () => {
           Employee Registration
         </h2>
         {/* components  */}
-        <Register />
+        {isRegistered ? <Register /> : <Login />}
 
         <div className="flex justify-center gap-1 mt-6">
-          <p className="text-sm text-[#ababab]">Already have an account? </p>
-          <a className="text-yellow-400 font-semibold hover:underline" href="#">
-            Sign in
+          <p className="text-sm text-[#ababab]">
+            {isRegistered
+              ? "Already have an account?"
+              : "Don't have an account?"}{" "}
+          </p>
+          <a
+            onClick={() => setIsRegistered(!isRegistered)}
+            className="text-yellow-400 font-semibold hover:underline"
+            href="#"
+          >
+            {isRegistered ? "Sign in" : "Sign up"}
           </a>
         </div>
       </div>
