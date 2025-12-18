@@ -1,8 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { LoginApi } from "../../https";
+import { useDispatch } from "react-redux";
+import { setAccessToken } from "../../redux/slices/authSlice";
 
 const Login = () => {
+  const dispath = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -18,19 +21,23 @@ const Login = () => {
     e.preventDefault();
     if (!formData.email.trim()) errors.email = "email is required";
     if (!formData.password.trim()) errors.password = "password is required";
-    if (Object.keys(errors).length > 0) alert("all fields are required");
-    console.log("formData :", formData);
+    if (Object.keys(errors).length > 0) {
+      alert("all fields are required");
+      return;
+    }
+
     LoginMutaion.mutate(formData);
   };
 
   const LoginMutaion = useMutation({
     mutationFn: (formData) => LoginApi(formData),
     onSuccess: (res) => {
-      const { data } = res;
-      console.log("LoginData :", data);
+      const token = res.data?.data?.accesstoken || res.data?.data?.accesstoken;
+      console.log("res :", res);
+      dispath(setAccessToken(token));
     },
     onError: (err) => {
-      console.log(err);
+      console.log("err :", err);
     },
   });
 

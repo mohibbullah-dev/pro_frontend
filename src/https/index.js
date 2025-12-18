@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
-import { setAccessToken } from "../redux/slices/authSlice";
+import { removeAccessToken, setAccessToken } from "../redux/slices/authSlice";
+import { store } from "../redux/store";
 
 // const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -10,7 +10,6 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 //   withCredentials: true, // ✅ cookie-based refresh এর জন্য must
 // });
 
-const dispatch = useDispatch();
 const api = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
@@ -28,7 +27,7 @@ const api = axios.create({
 // });
 
 api.interceptors.request.use((config) => {
-  const accessToken = useSelector((state) => state.auth);
+  const accessToken = store.getState().auth.accessToken;
   console.log("accessToken from redux toolkit :", accessToken);
   if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
   return config;
@@ -48,11 +47,11 @@ api.interceptors.response.use(
         );
 
         const newAccessToken = refreshRes.data?.data?.accessToken;
-        dispatch(setAccessToken(newAccessToken));
+        store.dispatch(setAccessToken(newAccessToken));
         original.headers.Authorization = `Bearer ${newAccessToken}`;
         return api(original);
       } catch (error) {
-        dispatch(clearAuth());
+        store.dispatch(removeAccessToken());
       }
     }
 
