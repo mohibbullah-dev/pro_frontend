@@ -25,7 +25,7 @@ const Register = () => {
     if (Object.keys(errors).length > 0) alert("all fields are required");
     e.preventDefault();
 
-    console.log("formData :", formData);
+    // console.log("formData :", formData);
   };
 
   const [selectedRole, setSelectedRole] = useState(null);
