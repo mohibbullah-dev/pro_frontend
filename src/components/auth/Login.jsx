@@ -4,6 +4,7 @@ import { LoginApi } from "../../https";
 import { useDispatch } from "react-redux";
 import { setAccessToken } from "../../redux/slices/authSlice";
 import { toast } from "react-toastify";
+import { setUser } from "../../redux/slices/usreSlice";
 
 const Login = () => {
   const dispath = useDispatch();
@@ -35,7 +36,9 @@ const Login = () => {
     onSuccess: (res) => {
       const token = res.data?.data?.accesstoken || res.data?.data?.accesstoken;
       console.log("res :", res);
+      const { name, email, phone, role } = res.data?.data?.userObj;
       dispath(setAccessToken(token));
+      dispath(setUser({ name, email, phone, role, isLogedIn: true }));
       toast.success("Login succefully done");
     },
     onError: (err) => {
