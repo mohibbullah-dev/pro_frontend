@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { LoginApi } from "../../https";
 import { useDispatch } from "react-redux";
 import { setAccessToken } from "../../redux/slices/authSlice";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const dispath = useDispatch();
@@ -35,9 +36,12 @@ const Login = () => {
       const token = res.data?.data?.accesstoken || res.data?.data?.accesstoken;
       console.log("res :", res);
       dispath(setAccessToken(token));
+      toast.success("Login succefully done");
     },
     onError: (err) => {
       console.log("err :", err);
+      const message = err?.response?.data?.message || "Something went wrong";
+      toast.error(message);
     },
   });
 

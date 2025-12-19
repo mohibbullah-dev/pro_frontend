@@ -10,6 +10,7 @@ import Orders from "./pages/Orders";
 import Header from "./components/shared/Header";
 import Tables from "./pages/Tables";
 import Menu from "./pages/Menu";
+import { ToastContainer, toast } from "react-toastify";
 
 function Layout() {
   const { pathname } = useLocation();
@@ -25,6 +26,7 @@ function Layout() {
         <Route path="/table" element={<Tables />} />
         <Route path="/menu" element={<Menu />} />
       </Routes>
+      <ToastContainer />
     </>
   );
 }
