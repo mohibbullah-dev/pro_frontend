@@ -3,10 +3,35 @@ import logo from "../../assets/images/logo.png";
 import { FaSearch } from "react-icons/fa";
 import { FaBell } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { IoIosLogOut } from "react-icons/io";
+import { useMutation } from "@tanstack/react-query";
+import { LogOutApi } from "../../https";
+import { toast } from "react-toastify";
+import { removeUser } from "../../redux/slices/usreSlice";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const userData = useSelector((state) => state.user);
+  const dispath = useDispatch();
+  const navigate = useNavigate();
+
+  const logOutHandler = () => {
+    logedOutMutation.mutate();
+    dispath(removeUser());
+    navigate("/auth");
+  };
+
+  const logedOutMutation = useMutation({
+    mutationFn: () => LogOutApi(),
+    onSuccess: (data) => {
+      console.log(data);
+      toast.success("logedOut succefully done");
+    },
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    },
+  });
   return (
     <header className="flex justify-between py-4 px-8 bg-[#1a1a1a]">
       {/* logo */}
@@ -52,6 +77,12 @@ const Header = () => {
               {userData?.role || "N/A"}
             </p>
           </div>
+        </div>
+        <div>
+          <IoIosLogOut
+            onClick={logOutHandler}
+            className="text-[#f5f5f5] text-[32px] cursor-pointer"
+          />
         </div>
       </div>
     </header>
