@@ -1,7 +1,14 @@
+import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { useState } from "react";
 import { MdRadioButtonChecked } from "react-icons/md";
+import { RegisterAPi } from "../../https";
+import { toast } from "react-toastify";
+import { IoMdCloudUpload } from "react-icons/io";
 const Register = () => {
+  const [avatarPrev, setAvatarPrev] = useState();
+  const [avatarFile, setAvatarFile] = useState();
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -16,17 +23,44 @@ const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const avatarHandler = (e) => {
+    const img = e.target?.files[0];
+
+    const url = URL.createObjectURL(img);
+    setAvatarPrev(url);
+    setAvatarFile(img);
+
+    console.log("files: ", img);
+  };
+
   const submitHandler = (e) => {
+    e.preventDefault();
     if (!formData.name.trim()) errors.name = "name is required";
     if (!formData.phone.trim()) errors.phone = "phone is required";
     if (!formData.email.trim()) errors.email = "email is required";
     if (!formData.password.trim()) errors.password = "password is required";
     if (!formData.role.trim()) errors.role = "role is required";
     if (Object.keys(errors).length > 0) alert("all fields are required");
-    e.preventDefault();
 
-    // console.log("formData :", formData);
+    const fd = new FormData();
+    fd.append("name", formData.name);
+    fd.append("email", formData.email);
+    fd.append("phone", formData.phone);
+    fd.append("password", formData.password);
+    fd.append("role", formData.role);
+    if (!avatarFile) return;
+    fd.append("avatar", avatarFile);
+    registerMutation.mutate(formData);
   };
+
+  const registerMutation = useMutation({
+    mutationFn: (formData) => RegisterAPi(formData),
+    onSuccess: (res) => {
+      console.log("registerRes :", res);
+      toast.success("registerd succefully");
+    },
+    onError: (err) => toast.error(err?.response?.data?.message),
+  });
 
   const [selectedRole, setSelectedRole] = useState(null);
   const roleHandler = (e) => {
@@ -122,6 +156,37 @@ const Register = () => {
             })}
           </div>
         </div>
+
+        <div className="flex items-start w-30 h-30 mt-5 justify-center flex-col">
+          <label
+            htmlFor="img"
+            className="border text-[#ababab] hover:bg-[#1f1f1f] border-dashed rounded-lg w-full h-[200px] flex flex-col items-center justify-center cursor-pointer gap-3"
+          >
+            {avatar ? (
+              <img
+                className="w-30 max-h-30 rounded-lg object-cover object-top "
+                src={avatarPrev}
+                alt=""
+              />
+            ) : (
+              <>
+                <span>
+                  <IoMdCloudUpload className="text-4xl text-[#ababab]" />
+                </span>
+                <span className="text-lg">profile</span>
+              </>
+            )}
+          </label>
+          <input
+            required
+            onChange={avatarHandler}
+            className="hidden"
+            type="file"
+            name="img"
+            id="img"
+          />
+        </div>
+
         <button
           type="submit"
           className="w-full rounded-lg mt-6 py-3 text-lg hover:bg-yellow-300 bg-amber-400 text-gray-900 font-bold cursor-pointer"

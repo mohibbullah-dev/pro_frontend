@@ -17,7 +17,7 @@ const userSlice = createSlice({
       state.email = action.payload?.email;
       state.phone = action.payload?.phone;
       state.role = action.payload?.role;
-      state.isLogedIn = true;
+      state.isLogedIn = action.payload?.isLogedIn
     },
     removeUser: (state) => {
       state.name = "";

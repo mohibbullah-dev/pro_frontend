@@ -62,7 +62,7 @@ api.interceptors.response.use(
 // api end_point
 
 const LoginApi = (data) => api.post("/users/login", data);
-const RegisterAPi = (data) => api.post("/users/signup", data);
+const RegisterAPi = (data) => api.post("users/signup", data);
 const LogOutApi = () => api.post("/users/logOut");
 const MeAPi = () => api.get("/users/me");
 export { LoginApi, RegisterAPi, LogOutApi, MeAPi };

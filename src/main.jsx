@@ -10,6 +10,9 @@ const queryClint = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 30000,
+      refetchOnWindowFocus: false,
+      cashTime: 5 * 60 * 1000,
+      retry: 2,
     },
   },
 });
