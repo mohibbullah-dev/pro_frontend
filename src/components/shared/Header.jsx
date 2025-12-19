@@ -3,8 +3,10 @@ import logo from "../../assets/images/logo.png";
 import { FaSearch } from "react-icons/fa";
 import { FaBell } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  const userData = useSelector((state) => state.user);
   return (
     <header className="flex justify-between py-4 px-8 bg-[#1a1a1a]">
       {/* logo */}
@@ -32,10 +34,23 @@ const Header = () => {
         </div>
 
         <div className="flex items-center cursor-pointer gap-3">
-          <FaUserCircle className="text-[#f5f5f5] text-4xl" />
+          {/* <FaUserCircle className="text-[#f5f5f5] text-4xl" /> */}
+          {userData?.avatar?.url ? (
+            <img
+              src={userData?.avatar?.url}
+              className="text-[#f5f5f5] w-6 h-6 text-4xl"
+              alt=""
+            />
+          ) : (
+            <FaUserCircle className="text-[#f5f5f5] text-4xl" />
+          )}
           <div className="flex flex-col items-start">
-            <h1 className="text-md text-[#f5f5f5] font-semibold">Amrit Raj</h1>
-            <p className="text-xs text-[#ababab] font-medium ">Admin</p>
+            <h1 className="text-md text-[#f5f5f5] font-semibold">
+              {userData?.name || "Test user"}
+            </h1>
+            <p className="text-xs text-[#ababab] font-medium ">
+              {userData?.role || "N/A"}
+            </p>
           </div>
         </div>
       </div>

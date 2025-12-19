@@ -38,9 +38,9 @@ const Login = () => {
     onSuccess: (res) => {
       const token = res.data?.data?.accesstoken || res.data?.data?.accesstoken;
       console.log("res :", res);
-      const { name, email, phone, role } = res.data?.data?.userObj;
+      const { name, email, phone, role, avatar } = res.data?.data?.userObj;
       dispath(setAccessToken(token));
-      dispath(setUser({ name, email, phone, role, isLogedIn: true }));
+      dispath(setUser({ name, email, phone, role, avatar, isLogedIn: true }));
       toast.success("Login succefully done");
       navigate("/");
     },

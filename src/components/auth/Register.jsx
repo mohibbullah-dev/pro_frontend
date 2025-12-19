@@ -50,14 +50,22 @@ const Register = () => {
     fd.append("role", formData.role);
     if (!avatarFile) return;
     fd.append("avatar", avatarFile);
-    registerMutation.mutate(formData);
+    registerMutation.mutate(fd);
   };
 
   const registerMutation = useMutation({
-    mutationFn: (formData) => RegisterAPi(formData),
+    mutationFn: (fd) => RegisterAPi(fd),
     onSuccess: (res) => {
       console.log("registerRes :", res);
       toast.success("registerd succefully");
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        password: "",
+        role: "",
+      });
+      setAvatarPrev(null);
     },
     onError: (err) => toast.error(err?.response?.data?.message),
   });
@@ -162,7 +170,7 @@ const Register = () => {
             htmlFor="img"
             className="border text-[#ababab] hover:bg-[#1f1f1f] border-dashed rounded-lg w-full h-[200px] flex flex-col items-center justify-center cursor-pointer gap-3"
           >
-            {avatar ? (
+            {avatarPrev ? (
               <img
                 className="w-30 max-h-30 rounded-lg object-cover object-top "
                 src={avatarPrev}

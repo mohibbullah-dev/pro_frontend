@@ -5,6 +5,7 @@ const initialState = {
   email: "",
   phone: "",
   role: "",
+  avatar: "",
   isLogedIn: false,
 };
 
@@ -17,13 +18,15 @@ const userSlice = createSlice({
       state.email = action.payload?.email;
       state.phone = action.payload?.phone;
       state.role = action.payload?.role;
-      state.isLogedIn = action.payload?.isLogedIn
+      state.avatar = action.payload?.avatar;
+      state.isLogedIn = action.payload?.isLogedIn;
     },
     removeUser: (state) => {
       state.name = "";
       state.email = "";
       state.phone = "";
       state.role = "";
+      state.avatar = "";
       state.isLogedIn = false;
     },
   },
