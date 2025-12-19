@@ -5,9 +5,11 @@ import { useDispatch } from "react-redux";
 import { setAccessToken } from "../../redux/slices/authSlice";
 import { toast } from "react-toastify";
 import { setUser } from "../../redux/slices/usreSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const dispath = useDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -40,6 +42,7 @@ const Login = () => {
       dispath(setAccessToken(token));
       dispath(setUser({ name, email, phone, role, isLogedIn: true }));
       toast.success("Login succefully done");
+      navigate("/");
     },
     onError: (err) => {
       console.log("err :", err);
