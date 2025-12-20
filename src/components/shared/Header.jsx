@@ -10,6 +10,7 @@ import { LogOutApi } from "../../https";
 import { toast } from "react-toastify";
 import { removeUser } from "../../redux/slices/usreSlice";
 import { useNavigate } from "react-router-dom";
+import { removeAccessToken } from "../../redux/slices/authSlice";
 
 const Header = () => {
   const userData = useSelector((state) => state.user);
@@ -18,8 +19,6 @@ const Header = () => {
 
   const logOutHandler = () => {
     logedOutMutation.mutate();
-    dispath(removeUser());
-    navigate("/auth");
   };
 
   const logedOutMutation = useMutation({
@@ -27,6 +26,9 @@ const Header = () => {
     onSuccess: (data) => {
       console.log(data);
       toast.success("logedOut succefully done");
+      dispath(removeUser());
+      dispath(removeAccessToken());
+      navigate("/auth");
     },
     onError: (error) => {
       toast.error(error.response.data.message);

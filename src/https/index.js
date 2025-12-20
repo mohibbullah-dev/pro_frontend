@@ -36,25 +36,27 @@ api.interceptors.response.use(
   (res) => res,
   async (err) => {
     const original = err.config;
-    if (err.response.status === 401 && !original._retry) {
-      original._retry = true;
-      try {
-        const refreshRes = await api.post(
-          `${BASE_URL}/users/refreshTokn`,
-          {},
-          { withCredentials: true }
-        );
-
-        const newAccessToken = refreshRes.data?.data?.accessToken;
-        store.dispatch(setAccessToken(newAccessToken));
-        original.headers.Authorization = `Bearer ${newAccessToken}`;
-        return api(original);
-      } catch (error) {
-        store.dispatch(removeAccessToken());
-      }
+    if (err.response?.status !== 401 || original._retry) {
+      return Promise.reject(err);
+    }
+    if (original.url.includes("/users/refreshTokn")) {
+      store.dispatch(removeAccessToken());
+      return Promise.reject(err);
     }
 
-    return Promise.reject(err);
+    original._retry = true;
+
+    try {
+      const refreshRes = await api.post(`/users/refreshTokn`);
+
+      const newAccessToken = refreshRes.data?.data?.newAccessToken;
+      store.dispatch(setAccessToken(newAccessToken));
+      original.headers.Authorization = `Bearer ${newAccessToken}`;
+      return api(original);
+    } catch (error) {
+      store.dispatch(removeAccessToken());
+      return Promise.reject(err);
+    }
   }
 );
 
