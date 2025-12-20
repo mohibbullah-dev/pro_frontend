@@ -12,11 +12,13 @@ import { removeUser } from "../../redux/slices/usreSlice";
 import { useNavigate } from "react-router-dom";
 import { removeAccessToken } from "../../redux/slices/authSlice";
 import { LuLayoutDashboard } from "react-icons/lu";
+import { useState } from "react";
 
 const Header = () => {
   const userData = useSelector((state) => state.user);
   const dispath = useDispatch();
   const navigate = useNavigate();
+  const [ring, setRing] = useState(false);
 
   const logOutHandler = () => {
     logedOutMutation.mutate();
@@ -35,6 +37,18 @@ const Header = () => {
       toast.error(error.response.data.message);
     },
   });
+
+  const refreshHandler = () => {
+    setRing(true);
+
+    setTimeout(() => {
+      // navigate(0); // for current page reload
+      // window.location.reload(); // for hard refresh
+      navigate(window.location.pathname, { replace: true });
+
+      setRing(false);
+    }, 500);
+  };
   return (
     <header className="flex justify-between py-4 px-8 bg-[#1a1a1a]">
       {/* logo */}
@@ -66,7 +80,12 @@ const Header = () => {
           </div>
         )}
         <div className="bg-[#1f1f1f] rounded-[15px] p-3 cursor-pointer">
-          <FaBell className="text-[#f5f5f5] text-2xl" />
+          <FaBell
+            onClick={refreshHandler}
+            className={`text-[#f5f5f5] text-2xl transition-transform duration-1000 ${
+              ring ? "-rotate-720" : "rotate-0"
+            }`}
+          />
         </div>
 
         <div className="flex items-center cursor-pointer gap-3">

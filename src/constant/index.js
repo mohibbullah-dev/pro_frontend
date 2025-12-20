@@ -434,7 +434,7 @@ export const menus = [
 export const metricsData = [
   {
     title: "Revenue",
-    value: "₹50,846.90",
+    value: "$50,846.90",
     percentage: "12%",
     color: "#025cca",
     isIncrease: false,
