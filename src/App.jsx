@@ -19,11 +19,14 @@ import useLoadData from "./hooks/useLoadData";
 import { removeUser } from "./redux/slices/usreSlice";
 import { useEffect } from "react";
 import Loader from "./components/shared/Loader";
+import Dashbord from "./pages/Dashbord";
+import NotFound from "./utils/NotFound";
 
 function Layout() {
   useLoadData();
   const { pathname } = useLocation();
-  const { isLogedIn, loading } = useSelector((state) => state.user);
+  const { isLogedIn, loading, role } = useSelector((state) => state.user);
+  console.log("role: ", role);
   const accessToken = useSelector((state) => state.auth?.accessToken);
 
   if (loading) return <Loader />;
@@ -43,7 +46,7 @@ function Layout() {
         />
         <Route
           path="/auth"
-          element={isLogedIn ? <Navigate to="/" replace /> : <Auth />}
+          element={isLogedIn ? <Navigate to="/" /> : <Auth />}
         />
         <Route
           path="/orders"
@@ -69,6 +72,15 @@ function Layout() {
             </ProtectedRoutes>
           }
         />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoutes>
+              {role === "admin" ? <Dashbord /> : <Navigate to="/" replace />}
+            </ProtectedRoutes>
+          }
+        />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <ToastContainer />
     </>

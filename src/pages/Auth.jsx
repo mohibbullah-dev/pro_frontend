@@ -6,7 +6,7 @@ import { useState } from "react";
 import Login from "../components/auth/Login";
 import Loader from "../components/shared/Loader";
 
-const Auth = ({ loader }) => {
+const Auth = ({ loader, setLoader }) => {
   const [isRegistered, setIsRegistered] = useState(true);
 
   if (loader) return <Loader />;
@@ -34,7 +34,7 @@ const Auth = ({ loader }) => {
 
       {/* Right Section  */}
 
-      <div className="w-1/2 min-h-screen bg-[#1a1a1a] p-10">
+      <div className="w-1/2 min-h-screen bg-[#1a1a1a] px-10 py-5">
         <div className="flex flex-col items-center gap-2">
           <img
             src={logo_2}
@@ -45,15 +45,11 @@ const Auth = ({ loader }) => {
             Restro
           </h1>
         </div>
-        <h2 className="text-4xl text-center mt-10 font-semibold text-yellow-400 mg-10">
+        <h2 className="text-4xl text-center pb-5 mb-0 font-semibold text-yellow-400 mg-10">
           Employee Registration
         </h2>
         {/* components  */}
-        {isRegistered ? (
-          <Register setIsRegistered={setIsRegistered} />
-        ) : (
-          <Login />
-        )}
+        {isRegistered ? <Register /> : <Login />}
 
         <div className="flex justify-center gap-1 mt-6">
           <p className="text-sm text-[#ababab]">

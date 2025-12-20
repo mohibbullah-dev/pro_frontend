@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { removeUser } from "../../redux/slices/usreSlice";
 import { useNavigate } from "react-router-dom";
 import { removeAccessToken } from "../../redux/slices/authSlice";
+import { LuLayoutDashboard } from "react-icons/lu";
 
 const Header = () => {
   const userData = useSelector((state) => state.user);
@@ -56,6 +57,14 @@ const Header = () => {
       {/* logged user's details  */}
 
       <div className="flex items-center gap-4">
+        {userData.role === "admin" && (
+          <div
+            onClick={() => navigate("/dashboard")}
+            className="bg-[#1f1f1f] rounded-[15px] p-3 cursor-pointer"
+          >
+            <LuLayoutDashboard className="text-[#f5f5f5] text-2xl" />
+          </div>
+        )}
         <div className="bg-[#1f1f1f] rounded-[15px] p-3 cursor-pointer">
           <FaBell className="text-[#f5f5f5] text-2xl" />
         </div>
