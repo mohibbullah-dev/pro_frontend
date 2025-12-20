@@ -5,7 +5,8 @@ import { MdRadioButtonChecked } from "react-icons/md";
 import { RegisterAPi } from "../../https";
 import { toast } from "react-toastify";
 import { IoMdCloudUpload } from "react-icons/io";
-const Register = () => {
+import { useNavigate } from "react-router-dom";
+const Register = ({ setIsRegistered }) => {
   const [avatarPrev, setAvatarPrev] = useState();
   const [avatarFile, setAvatarFile] = useState();
 
@@ -66,6 +67,7 @@ const Register = () => {
         role: "",
       });
       setAvatarPrev(null);
+      setIsRegistered(false);
     },
     onError: (err) => toast.error(err?.response?.data?.message),
   });

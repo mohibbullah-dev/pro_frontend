@@ -6,6 +6,7 @@ import { BsCashCoin } from "react-icons/bs";
 import { GrInProgress } from "react-icons/gr";
 import RecentOrder from "../components/home/RecentOrder";
 import PopularDishes from "../components/home/PopularDishes";
+import Loader from "../components/shared/Loader";
 
 const Home = () => {
   return (

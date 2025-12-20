@@ -8,6 +8,7 @@ const initialState = {
   role: "",
   avatar: "",
   isLogedIn: false,
+  loading: true,
 };
 
 const userSlice = createSlice({
@@ -22,6 +23,7 @@ const userSlice = createSlice({
       state.role = action.payload?.role;
       state.avatar = action.payload?.avatar;
       state.isLogedIn = true;
+      state.loading = false;
     },
     removeUser: (state) => {
       state.id = "";
@@ -31,6 +33,7 @@ const userSlice = createSlice({
       state.role = "";
       state.avatar = "";
       state.isLogedIn = false;
+      state.loading = false;
     },
   },
 });

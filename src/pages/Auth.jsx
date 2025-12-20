@@ -4,9 +4,12 @@ import logo_2 from "../assets/images/logo_2.png";
 import Register from "../components/auth/Register";
 import { useState } from "react";
 import Login from "../components/auth/Login";
+import Loader from "../components/shared/Loader";
 
-const Auth = () => {
+const Auth = ({ loader }) => {
   const [isRegistered, setIsRegistered] = useState(true);
+
+  if (loader) return <Loader />;
 
   return (
     <div className="flex min-h-screen w-full overflow-y-scroll overflow-hidden">
@@ -46,7 +49,11 @@ const Auth = () => {
           Employee Registration
         </h2>
         {/* components  */}
-        {isRegistered ? <Register /> : <Login />}
+        {isRegistered ? (
+          <Register setIsRegistered={setIsRegistered} />
+        ) : (
+          <Login />
+        )}
 
         <div className="flex justify-center gap-1 mt-6">
           <p className="text-sm text-[#ababab]">

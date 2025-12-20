@@ -5,6 +5,7 @@ import {
   useLocation,
   Navigate,
   useNavigate,
+  replace,
 } from "react-router-dom";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
@@ -17,26 +18,15 @@ import { useDispatch, useSelector } from "react-redux";
 import useLoadData from "./hooks/useLoadData";
 import { removeUser } from "./redux/slices/usreSlice";
 import { useEffect } from "react";
+import Loader from "./components/shared/Loader";
 
 function Layout() {
+  useLoadData();
   const { pathname } = useLocation();
-  const { isLogedIn } = useSelector((state) => state.user);
+  const { isLogedIn, loading } = useSelector((state) => state.user);
   const accessToken = useSelector((state) => state.auth?.accessToken);
-  const dispath = useDispatch();
-  const navigate = useNavigate();
 
-  console.log("isLogedIn :", isLogedIn);
-  console.log("accessToken :", accessToken);
-
-  // useEffect(() => {
-  //   if (!accessToken) {
-  //     dispath(removeUser());
-  //     navigate("/auth");
-  //     return;
-  //   }
-  // }, [dispath, navigate, accessToken]);
-
-
+  if (loading) return <Loader />;
 
   return (
     <>
@@ -53,7 +43,7 @@ function Layout() {
         />
         <Route
           path="/auth"
-          element={isLogedIn ? <Navigate to="/" /> : <Auth />}
+          element={isLogedIn ? <Navigate to="/" replace /> : <Auth />}
         />
         <Route
           path="/orders"
@@ -86,10 +76,11 @@ function Layout() {
 }
 
 const ProtectedRoutes = ({ children }) => {
-    useLoadData();
-  const { isLogedIn } = useSelector((state) => state.user);
+  const { isLogedIn, loading } = useSelector((state) => state.user);
+
+  if (loading) return <Loader />;
   if (!isLogedIn) {
-    return <Navigate to="/auth" />;
+    return <Navigate to="/auth" replace />;
   }
   return children;
 };
