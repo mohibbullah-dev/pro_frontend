@@ -66,7 +66,8 @@ const LoginApi = (data) => api.post("/users/login", data);
 const RegisterAPi = (data) => api.post("users/signup", data);
 const LogOutApi = () => api.post("/users/logOut");
 const MeAPi = () => api.get("/users/me");
-export { LoginApi, RegisterAPi, LogOutApi, MeAPi };
+const RefreshTokenApi = () => api.get("users/refreshTokn");
+export { LoginApi, RegisterAPi, LogOutApi, MeAPi, RefreshTokenApi };
 
 // 2) 401 হলে refresh করে retry
 // api.interceptors.response.use(

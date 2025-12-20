@@ -1,29 +1,40 @@
 import { useEffect } from "react";
-import { MeAPi } from "../https";
+import { MeAPi, RefreshTokenApi } from "../https";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { replace, useNavigate } from "react-router-dom";
 import { removeUser, setUser } from "../redux/slices/usreSlice";
+import { useRef } from "react";
+import { removeAccessToken, setAccessToken } from "../redux/slices/authSlice";
 
-const useLoadData = () => {
+const useBootstarap = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const accessToken = useSelector((state) => state.auth);
+  const accessToken = useSelector((state) => state?.auth);
+  const useBootstarapedRef = useRef(false);
 
   useEffect(() => {
-    if (!accessToken) return;
-    async function fetchUser() {
+    if (useBootstarapedRef.current) return;
+    useBootstarapedRef = true;
+    async function bootstrap() {
       try {
+        if (!accessToken) {
+          const { data } = await RefreshTokenApi();
+          const token = data?.data?.newAccessToken;
+          if (!token) throw new Error("No accessToken from refreshToken");
+          dispatch(setAccessToken(token));
+        }
+
         const { data } = await MeAPi();
-        console.log("me :", data);
-        const { _id, name, email, phone, role, avatar } = data.data;
-        dispatch(setUser({ id: _id, name, email, phone, role, avatar }));
+        const { _id, name, email, phone, role, avatar } = data?.data;
+        dispatch(setUser({ id: id, name, email, phone, role, avatar }));
       } catch (error) {
-        navigate("/auth");
+        dispatch(removeAccessToken());
         dispatch(removeUser());
+        navigate("/auth", { replace: true });
       }
     }
-    fetchUser();
-  }, [dispatch, navigate]);
+    bootstrap();
+  }, [accessToken, dispatch, navigate]);
 };
 
 export default useLoadData;
