@@ -1,6 +1,43 @@
-import React from "react";
+import { useMutation } from "@tanstack/react-query";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { TableApi } from "../../https";
 
 const Modal = ({ modal, setModal, action }) => {
+  const [tableData, setTableData] = useState({
+    tableNo: 0,
+    seatNo: 0,
+  });
+  const tableInputHandler = (e) => {
+    setTableData({ ...tableData, [e.target.name]: e.target.value });
+  };
+
+  const SubmitTableData = () => {
+    if (!tableData.tableNo || !tableData.seatNo)
+      console.error("all fields are required");
+    console.log("tableData : ", tableData);
+
+    TableMutation.mutate(tableData);
+  };
+
+  const TableMutation = useMutation({
+    mutationFn: (tableData) => TableApi(tableData),
+    onSuccess: (res) => {
+      console.log("data", res);
+      toast.success(res.data.data.message || "table created succefully");
+      setTableData({
+        tableNo: 0,
+        seatNo: 0,
+      });
+    },
+    onError: (err) => {
+      toast.error(err.response.data.message);
+    },
+  });
+
+  const SubmitCatogoryData = () => {};
+  const SubmitDishesData = () => {};
+
   return (
     <div onClick={() => setModal(false)} className="bg-amber-600 relative z-50">
       <div className="fixed inset-0 h-full flex items-center justify-center w-full bg-black/50 ">
@@ -19,36 +56,60 @@ const Modal = ({ modal, setModal, action }) => {
               &times;
             </button>
           </div>
-          <div>
-            <label className="block text-md  text-[#ababab] mb-2 mt-3  font-medium">
-              Table Number
-            </label>
-            <div className="flex text-lg  items-center rounded-lg p-3 py-5 font-medium bg-[#1b1b1b]">
-              <input
-                type="number"
-                placeholder=""
-                id="phone"
-                className="bg-transparent flex-1 text-white focus:outline-none"
-              />
-            </div>
-          </div>
+          {action.action === "table" ? (
+            <div>
+              <div>
+                <label className="block text-md  text-[#ababab] mb-2 mt-3  font-medium">
+                  Table Number
+                </label>
+                <div className="flex text-lg  items-center rounded-lg p-3 py-5 font-medium bg-[#1b1b1b]">
+                  <input
+                    onChange={(e) => tableInputHandler(e)}
+                    type="number"
+                    name="tableNo"
+                    value={tableData.tableNo}
+                    placeholder=""
+                    id="phone"
+                    className="bg-transparent flex-1 text-white focus:outline-none"
+                  />
+                </div>
+              </div>
 
-          <div>
-            <label className="block text-md  text-[#ababab] mb-2 mt-3 font-medium">
-              Table of Seats
-            </label>
-            <div className="flex items-center rounded-lg p-3 py-5 text-sm font-medium bg-[#1b1b1b]">
-              <input
-                type="number"
-                placeholder=""
-                id="phone"
-                className="bg-transparent text-lg flex-1 text-white focus:outline-none"
-              />
+              <div>
+                <label className="block text-md  text-[#ababab] mb-2 mt-3 font-medium">
+                  Table of Seats
+                </label>
+                <div className="flex items-center rounded-lg p-3 py-5 text-sm font-medium bg-[#1b1b1b]">
+                  <input
+                    onChange={(e) => tableInputHandler(e)}
+                    name="seatNo"
+                    value={tableData.seatNo}
+                    type="number"
+                    placeholder=""
+                    id="phone"
+                    className="bg-transparent text-lg flex-1 text-white focus:outline-none"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
+          ) : (
+            ""
+          )}
 
-          <button className="cursor-pointer w-full bg-[#f6B100] text-[#f5f5f5] rounded-lg py-4 mt-5 hover:bg-yellow-700">
-            Create Order
+          <button
+            onClick={
+              action.action === "table"
+                ? SubmitTableData
+                : action.action === "category"
+                ? SubmitCatogoryData
+                : SubmitDishesData
+            }
+            className="cursor-pointer w-full bg-[#f6B100] text-[#f5f5f5]
+            rounded-lg py-4 mt-5 hover:bg-yellow-700"
+          >
+            {action.action === "table" && "Create Table"}{" "}
+            {action.action === "category" && "Create Category"}{" "}
+            {action.action === "dishes" && "Create Dishes"}
           </button>
         </div>
       </div>

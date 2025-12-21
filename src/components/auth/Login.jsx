@@ -6,8 +6,6 @@ import { setAccessToken } from "../../redux/slices/authSlice";
 import { toast } from "react-toastify";
 import { setUser } from "../../redux/slices/usreSlice";
 import { useNavigate } from "react-router-dom";
-import useLoadData from "../../hooks/useLoadData";
-import Loader from "../shared/Loader";
 
 const Login = () => {
   const dispath = useDispatch();

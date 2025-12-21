@@ -37,6 +37,7 @@ const Dashbord = () => {
           {buttons.map(({ label, icon, action }) => {
             return (
               <button
+                key={action}
                 onClick={() => {
                   modalHander({ label, icon, action });
                 }}
@@ -51,9 +52,10 @@ const Dashbord = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          {Tabs.map((tab) => {
+          {Tabs.map((tab, index) => {
             return (
               <button
+                key={index}
                 onClick={() => setActiveTab(tab)}
                 className={`bg-[#1f1f1f] ${
                   activeTab === tab ? "bg-[#262626]" : "bg-[#1f1f1f]"
