@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { MdCategory } from "react-icons/md";
 import { MdTableBar } from "react-icons/md";
 import { BiSolidDish } from "react-icons/bi";
@@ -7,12 +7,18 @@ import RecentOrder from "../components/dashboard/RecentOrder";
 import { useState } from "react";
 
 const Dashbord = () => {
-  const [activeTab, setActiveTabe] = useState("Metrics");
+  const [activeTab, setActiveTab] = useState(() => {
+    return localStorage.getItem("dashbordTab") || "Metrics";
+  });
   const buttons = [
     { label: "Add Category", icon: <MdCategory />, action: "category" },
     { label: "Add Table", icon: <MdTableBar />, action: "table" },
     { label: "Add Dishes", icon: <BiSolidDish />, action: "dishes" },
   ];
+
+  useEffect(() => {
+    localStorage.setItem("dashbordTab", activeTab);
+  }, [activeTab]);
 
   const Tabs = ["Metrics", "Order", "Payment"];
   return (
@@ -32,7 +38,7 @@ const Dashbord = () => {
           {Tabs.map((tab) => {
             return (
               <button
-                onClick={() => setActiveTabe(tab)}
+                onClick={() => setActiveTab(tab)}
                 className={`bg-[#1f1f1f] ${
                   activeTab === tab ? "bg-[#262626]" : "bg-[#1f1f1f]"
                 } px-8 py-3 rounded-lg text-[#f5f5f5] cursor-pointer font-semibold text-md flex items-center gap-2`}
