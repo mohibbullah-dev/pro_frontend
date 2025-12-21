@@ -52,7 +52,13 @@ const Header = () => {
   return (
     <header className="flex justify-between py-4 px-8 bg-[#1a1a1a]">
       {/* logo */}
-      <div className="flex items-center gap-2">
+      <div
+        onClick={() => {
+          navigate("/");
+          navigate(0);
+        }}
+        className="flex cursor-pointer items-center gap-2"
+      >
         <img className="h-12 w-12" src={logo} alt="restro logo" />
         <h1 className="text-lg font-semibold text-[#f5f5f5]">Restro</h1>
       </div>
