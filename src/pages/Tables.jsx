@@ -3,9 +3,28 @@ import BackButton from "../components/shared/BackButton";
 import TableCard from "../components/table/TableCard";
 import { tables } from "../constant";
 import BottomNav from "../components/shared/BottomNav";
+import { useQuery } from "@tanstack/react-query";
+import { GetTableApi } from "../https";
+import Loader from "../components/shared/Loader";
+import { toast } from "react-toastify";
 
 const Tables = () => {
   const [status, setStatus] = useState("all");
+  const {
+    data: tableData,
+    isPending,
+    isError,
+  } = useQuery({
+    queryKey: ["tableData"],
+    queryFn: async () => {
+      return await GetTableApi();
+    },
+  });
+
+  if (isPending) return <Loader />;
+  if (isError) toast.error("something went wrong");
+  if (tableData) console.log("tableData fetched succefully", tableData);
+
   return (
     <section className="bg-[#1f1f1f] h-[calc(100vh-5rem)] overflow-hidden">
       <div className="flex items-center justify-between px-10 py-4 ">

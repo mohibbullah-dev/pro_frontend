@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { TableApi } from "../../https";
+import { AddTableApi } from "../../https";
 
 const Modal = ({ modal, setModal, action }) => {
   const [tableData, setTableData] = useState({
@@ -21,7 +21,7 @@ const Modal = ({ modal, setModal, action }) => {
   };
 
   const TableMutation = useMutation({
-    mutationFn: (tableData) => TableApi(tableData),
+    mutationFn: (tableData) => AddTableApi(tableData),
     onSuccess: (res) => {
       console.log("data", res);
       toast.success(res.data.data.message || "table created succefully");

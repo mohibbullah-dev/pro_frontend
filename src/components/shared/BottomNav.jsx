@@ -20,9 +20,6 @@ const BottomNav = () => {
   let [gusetCount, setGusetCount] = useState(0);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  console.log("name :", name);
-  console.log("phone :", phone);
-  console.log("gusetCount :", gusetCount);
 
   const Increament = () => {
     if (gusetCount >= 7) return;

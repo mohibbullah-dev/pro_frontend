@@ -67,8 +67,18 @@ const RegisterAPi = (data) => api.post("users/signup", data);
 const LogOutApi = () => api.post("/users/logOut");
 const MeAPi = () => api.get("/users/me");
 const RefreshTokenApi = () => api.post("users/refreshTokn");
-const TableApi = (data) => api.post("tables/addTable", data);
-export { LoginApi, RegisterAPi, LogOutApi, MeAPi, RefreshTokenApi, TableApi };
+const AddTableApi = (data) => api.post("tables/addTable", data);
+const GetTableApi = () => api.get("tables/getTables");
+
+export {
+  LoginApi,
+  RegisterAPi,
+  LogOutApi,
+  MeAPi,
+  RefreshTokenApi,
+  AddTableApi,
+  GetTableApi,
+};
 
 // 2) 401 হলে refresh করে retry
 // api.interceptors.response.use(
