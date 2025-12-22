@@ -2,12 +2,14 @@ import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { AddTableApi } from "../../https";
+import { useNavigate } from "react-router-dom";
 
 const Modal = ({ modal, setModal, action }) => {
   const [tableData, setTableData] = useState({
     tableNo: 0,
     seatNo: 0,
   });
+  const navigate = useNavigate();
   const tableInputHandler = (e) => {
     setTableData({ ...tableData, [e.target.name]: e.target.value });
   };
@@ -29,6 +31,8 @@ const Modal = ({ modal, setModal, action }) => {
         tableNo: 0,
         seatNo: 0,
       });
+      navigate("/table");
+      navigate(0);
     },
     onError: (err) => {
       toast.error(err.response.data.message);

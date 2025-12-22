@@ -27,7 +27,6 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
   const accessToken = store.getState().auth.accessToken;
-  console.log("accessToken from redux toolkit :", accessToken);
   if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
   return config;
 });

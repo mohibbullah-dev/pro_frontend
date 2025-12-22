@@ -7,13 +7,17 @@ import { useQuery } from "@tanstack/react-query";
 import { GetTableApi } from "../https";
 import Loader from "../components/shared/Loader";
 import { toast } from "react-toastify";
+import EmptyState from "../utils/EmptyState";
+import { useNavigate } from "react-router-dom";
 
 const Tables = () => {
   const [status, setStatus] = useState("all");
+  const navigate = useNavigate();
   const {
     data: tableData,
     isPending,
     isError,
+    error,
   } = useQuery({
     queryKey: ["tableData"],
     queryFn: async () => {
@@ -22,8 +26,21 @@ const Tables = () => {
   });
 
   if (isPending) return <Loader />;
-  if (isError) toast.error("something went wrong");
-  if (tableData) console.log("tableData fetched succefully", tableData);
+  if (isError) {
+    toast.error(error.message);
+    return null;
+  }
+  const tables = tableData?.data?.data || [];
+  if (tables.length === 0) {
+    return (
+      <EmptyState
+        title="Order Table not found"
+        description="Before taking order, You have to have table"
+        actionLabel="Add table"
+        onAction={() => navigate("/orders")}
+      />
+    );
+  }
 
   return (
     <section className="bg-[#1f1f1f] h-[calc(100vh-5rem)] overflow-hidden">
@@ -55,14 +72,14 @@ const Tables = () => {
         </div>
       </div>
       <div className="flex flex-wrap justify-center gap-10 p-10 h-[calc(100vh-5rem-8rem)] overflow-y-scroll scrollbar-hide">
-        {tables.map((item) => {
+        {tableData?.data?.data?.map((item) => {
           return (
             <TableCard
-              name={item.name}
-              status={item.status}
+              name={item.tableNo}
+              status={item.tableStatus}
               initial={item.initial}
-              key={item.index}
-              seats={item.seats}
+              key={item._id}
+              seats={item.seatNo}
             />
           );
         })}
