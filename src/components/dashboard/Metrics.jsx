@@ -94,20 +94,6 @@ const Metrics = () => {
               the readable content
             </p>
           </div>
-          <button className="flex items-center gap-1 py-2 px-4 cursor-pointer rounded-md text-[#f5f5f5] bg-[#1a1a1a]">
-            Last 1 Month
-            <svg
-              className="w-3 h-3"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-          </button>
         </div>
         <div className="mt-6 grid grid-cols-4 gap-4">
           {itemsData.map((item, index) => {

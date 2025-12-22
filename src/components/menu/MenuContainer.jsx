@@ -39,6 +39,7 @@ const MenuContainer = () => {
       pricePerQuantity: price,
       quantity: itemCounts[item.id],
       price: price * itemCounts[item.id],
+      category,
     };
     console.log("obj :", obj);
 
