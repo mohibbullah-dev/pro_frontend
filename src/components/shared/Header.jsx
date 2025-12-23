@@ -55,7 +55,7 @@ const Header = () => {
       <div
         onClick={() => {
           navigate("/");
-          navigate(0);
+          // navigate(0);
         }}
         className="flex cursor-pointer items-center gap-2"
       >

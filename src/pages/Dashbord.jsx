@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { MdCategory } from "react-icons/md";
 import { MdTableBar } from "react-icons/md";
 import { BiSolidDish } from "react-icons/bi";
+import { BiFoodMenu } from "react-icons/bi";
 import Metrics from "../components/dashboard/Metrics";
 import RecentOrder from "../components/dashboard/RecentOrder";
 import { useState } from "react";
@@ -16,7 +17,7 @@ const Dashbord = () => {
   const buttons = [
     { label: "Add Category", icon: <MdCategory />, action: "category" },
     { label: "Add Table", icon: <MdTableBar />, action: "table" },
-    { label: "Add Dishes", icon: <BiSolidDish />, action: "dishes" },
+    { label: "Add Menu", icon: <BiFoodMenu />, action: "menu" },
   ];
 
   useEffect(() => {

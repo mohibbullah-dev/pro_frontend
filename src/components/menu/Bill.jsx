@@ -54,10 +54,6 @@ const Bill = () => {
             </button>
           );
         })}
-
-        {/* <button className="bg-[#1f1f1f] px-4 py-3 w-full rounded-lg text-[#ababab] font-semibold">
-          Online
-        </button> */}
       </div>
 
       <div className="flex items-center gap-3 px-5 mt-4">
