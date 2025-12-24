@@ -2,10 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   name: "",
-  logo: "",
   email: "",
   phone: "",
   status: "",
+  address: "",
   currency: "",
   openingOpen: "",
   openingClose: "",
@@ -17,20 +17,19 @@ const restaurantSlice = createSlice({
   initialState,
   reducers: {
     setRestaurantInfo: (state, action) => {
-      state.name = action.payload.name;
-      state.logo = action.payload.logo;
-      state.email = action.payload.email;
-      state.phone = action.payload.phone;
-      state.status = action.payload.status;
-      state.currency = action.payload.currency;
-      state.openingOpen = action.payload.openingOpen;
-      state.openingClose = action.payload.openingClose;
-      state.taxPercent = action.payload.taxPercent;
+      state.name = action?.payload?.name;
+      state.email = action?.payload?.contact?.email;
+      state.phone = action?.payload?.contact?.phone;
+      state.status = action?.payload?.status;
+      state.address = action?.payload?.address;
+      state.currency = action?.payload?.currency;
+      state.openingOpen = action?.payload?.openingHours?.open;
+      state.openingClose = action?.payload?.openingHours?.close;
+      state.taxPercent = action?.payload?.taxPercent;
     },
 
     removeRestaurantInfo: (state) => {
       state.name = "";
-      state.logo = "";
       state.email = "";
       state.phone = "";
       state.status = "";
