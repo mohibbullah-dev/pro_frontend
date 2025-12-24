@@ -7,6 +7,7 @@ import Metrics from "../components/dashboard/Metrics";
 import RecentOrder from "../components/dashboard/RecentOrder";
 import { useState } from "react";
 import Modal from "../components/dashboard/Modal";
+import Restaurant from "../components/dashboard/Restaurant";
 
 const Dashbord = () => {
   const [modal, setModal] = useState(false);
@@ -14,6 +15,7 @@ const Dashbord = () => {
   const [activeTab, setActiveTab] = useState(() => {
     return localStorage.getItem("dashbordTab") || "Metrics";
   });
+  const [restaurant, setRestaurant] = useState(false);
   const buttons = [
     { label: "Add Category", icon: <MdCategory />, action: "category" },
     { label: "Add Table", icon: <MdTableBar />, action: "table" },
@@ -50,7 +52,18 @@ const Dashbord = () => {
           })}
 
           {modal && <Modal modal={modal} setModal={setModal} action={action} />}
+
+          <div
+            onClick={() => setRestaurant(!restaurant)}
+            className="bg-amber-400 rounded-md hover:transition-colors hover:bg-amber-500 cursor-pointer text-white text-md px-4 py-2  font-semibold"
+          >
+            <button className=" bg-transparent cursor-pointer">
+              Create Restaurant
+            </button>
+          </div>
         </div>
+
+        {restaurant && <Restaurant setRestaurant={setRestaurant} />}
 
         <div className="flex items-center gap-3">
           {Tabs.map((tab, index) => {

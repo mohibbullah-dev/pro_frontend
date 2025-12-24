@@ -68,7 +68,7 @@ const Modal = ({ modal, setModal, action }) => {
 
   return (
     <div onClick={() => setModal(false)} className="bg-amber-600 relative z-50">
-      <div className="fixed inset-0 h-full flex items-center justify-center w-full bg-black/50 ">
+      <div className="fixed inset-0 h-full flex items-center justify-center w-full bg-black/70 backdrop-blur-sm">
         <div
           onClick={(e) => e.stopPropagation()}
           className={`bg-[#262626] shadow-lg w-full  ${
@@ -130,7 +130,7 @@ const Modal = ({ modal, setModal, action }) => {
             <div>
               <div>
                 <label className="block text-md  text-[#ababab] mb-2 mt-3  font-medium">
-                  Menu Name
+                  Menu Name <span className="text-yellow-400">*</span>
                 </label>
                 <div className="flex text-lg  items-center rounded-lg p-3 py-5 font-medium bg-[#1b1b1b]">
                   <input
@@ -185,10 +185,13 @@ const Modal = ({ modal, setModal, action }) => {
 
               <hr className="border-[#2a2a2a] border-t-2 mt-4" />
               <div className="mt-2">
-                <h2 className="text-xl text-start text-[#f5f5f5] font-semibold">
+                <h2 className="text-xl text-start  text-yellow-500 font-semibold">
                   {"Add Dishe"}
                 </h2>
-                <div className="flex flex-col gap-3 mt-3">
+                <label className="block text-md  text-[#ababab] mb-2 mt-3  font-medium">
+                  Dishe Name <span className="text-yellow-400">*</span>
+                </label>
+                <div className="flex flex-col gap-3 mt-1">
                   <div className="flex text-lg  items-center rounded-lg p-3 py-5 font-medium bg-[#1b1b1b]">
                     <input
                       onChange={(e) => {
@@ -208,46 +211,57 @@ const Modal = ({ modal, setModal, action }) => {
                   </div>
 
                   <div className="flex gap-3">
-                    <div className="flex-1 text-lg  items-center rounded-lg p-3 py-5 font-medium bg-[#1b1b1b]">
-                      <input
-                        onChange={(e) => {
-                          setMenu({
-                            ...menu,
-                            dishes: {
-                              ...menu.dishes,
-                              price: Number(e.target?.value),
-                            },
-                          });
-                        }}
-                        type="number"
-                        name="price"
-                        value={menu.dishes.price}
-                        required="true"
-                        placeholder="Enter dish-price"
-                        id="price"
-                        className="bg-transparent flex-1 text-white focus:outline-none"
-                      />
+                    <div className="w-full">
+                      <label className="block text-md  text-[#ababab] mb-2 mt-3  font-medium">
+                        Dishe Price <span className="text-yellow-400">*</span>
+                      </label>
+                      <div className="flex-1 text-lg  items-center rounded-lg p-3 py-5 font-medium bg-[#1b1b1b]">
+                        <input
+                          onChange={(e) => {
+                            setMenu({
+                              ...menu,
+                              dishes: {
+                                ...menu.dishes,
+                                price: Number(e.target?.value),
+                              },
+                            });
+                          }}
+                          type="number"
+                          name="price"
+                          value={menu.dishes.price}
+                          required="true"
+                          placeholder="Enter dish-price"
+                          id="price"
+                          className="bg-transparent flex-1 text-white focus:outline-none"
+                        />
+                      </div>
                     </div>
 
-                    <div className="flex-1 text-lg  items-center rounded-lg p-3 py-5 font-medium bg-[#1b1b1b]">
-                      <input
-                        onChange={(e) => {
-                          setMenu({
-                            ...menu,
-                            dishes: {
-                              ...menu.dishes,
-                              category: e.target?.value,
-                            },
-                          });
-                        }}
-                        type="text"
-                        name="category"
-                        value={menu.dishes.category}
-                        required="true"
-                        placeholder="Enter dish-category"
-                        id="category"
-                        className="bg-transparent flex-1 text-white focus:outline-none"
-                      />
+                    <div className="w-full">
+                      <label className="block text-md  text-[#ababab] mb-2 mt-3  font-medium">
+                        Dishe Cetegory{" "}
+                        <span className="text-yellow-400">*</span>
+                      </label>
+                      <div className="flex-1 text-lg  items-center rounded-lg p-3 py-5 font-medium bg-[#1b1b1b]">
+                        <input
+                          onChange={(e) => {
+                            setMenu({
+                              ...menu,
+                              dishes: {
+                                ...menu.dishes,
+                                category: e.target?.value,
+                              },
+                            });
+                          }}
+                          type="text"
+                          name="category"
+                          value={menu.dishes.category}
+                          required="true"
+                          placeholder="Enter dish-category"
+                          id="category"
+                          className="bg-transparent flex-1 text-white focus:outline-none"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
