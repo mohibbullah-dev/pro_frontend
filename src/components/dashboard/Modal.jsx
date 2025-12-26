@@ -1,17 +1,21 @@
 import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { AddTableApi } from "../../https";
+import { AddTableApi, CreateMenuApi } from "../../https";
 import { useNavigate } from "react-router-dom";
 import Emoji from "../../utils/Emoji";
+import { useDispatch } from "react-redux";
+import { setMenu } from "../../redux/slices/menuSlice";
 
 const Modal = ({ modal, setModal, action }) => {
+  const dispatch = useDispatch();
+
   const [tableData, setTableData] = useState({
     tableNo: null,
     seatNo: null,
   });
 
-  const [menu, setMenu] = useState({
+  const [menuData, setMenuData] = useState({
     name: "",
     color: "" || "#e30d0d",
     dishes: {
@@ -20,8 +24,6 @@ const Modal = ({ modal, setModal, action }) => {
       category: "",
     },
   });
-
-  console.log("menu :", menu);
 
   const [icon, setIcon] = useState("");
   console.log("icon :", icon);
@@ -59,8 +61,35 @@ const Modal = ({ modal, setModal, action }) => {
     },
   });
 
-  // menu submit
-  const SubmitMenuData = () => {};
+  // menuData submit
+  const SubmitMenuData = (e) => {
+    e.preventDefault();
+    if (!menuData.name) toast.error("name is required");
+    if (!menuData.color) toast.error("color is required");
+    if (Object.keys(menuData.dishes).length <= 0)
+      toast.error("dishe is required");
+    const menuObj = { ...menuData, icon };
+    console.log("menuObj :", menuObj);
+    menuDataMutation.mutate(menuObj);
+  };
+
+  const menuDataMutation = useMutation({
+    mutationFn: (menuData) => CreateMenuApi(menuData),
+    onSuccess: (res) => {
+      console.log("menuDataRes :", res);
+      toast.success(res.data.message || "menu created succefully");
+      const { name, color, icon, dishes } = res?.data?.data?.value;
+      console.log("resname :", name);
+      console.log("rescolor :", color);
+      console.log("resicon :", icon);
+      console.log("resdishes :", dishes);
+
+      dispatch(setMenu({ name, color, icon, dishes }));
+    },
+    onError: (err) =>
+      toast.error(err.response.data.message || "menuData submission faild"),
+  });
+
   const SubmitDishesData = () => {};
 
   return (
@@ -127,18 +156,18 @@ const Modal = ({ modal, setModal, action }) => {
             <div>
               <div>
                 <label className="block text-md  text-[#ababab] mb-2 mt-3  font-medium">
-                  Menu Name <span className="text-yellow-400">*</span>
+                  menuData Name <span className="text-yellow-400">*</span>
                 </label>
                 <div className="flex text-lg  items-center rounded-lg p-3 py-5 font-medium bg-[#1b1b1b]">
                   <input
                     onChange={(e) => {
-                      setMenu({ ...menu, name: e.target?.value });
+                      setMenuData({ ...menuData, name: e.target?.value });
                     }}
                     type="text"
                     name="name"
-                    value={menu.name}
+                    value={menuData.name}
                     required="true"
-                    placeholder="Enter menu-name"
+                    placeholder="Enter menuData-name"
                     id="name"
                     className="bg-transparent flex-1 text-white focus:outline-none"
                   />
@@ -155,9 +184,9 @@ const Modal = ({ modal, setModal, action }) => {
                   </div>
                   <div className="flex-1 w-full rounded-lg bg-[#1b1b1b]">
                     <input
-                      // onChange={(e) => menuInputHandler(e)}
+                      // onChange={(e) => menuDataInputHandler(e)}
                       name="color"
-                      value={menu.color}
+                      value={menuData.color}
                       type="text"
                       id="color"
                       className=" h-10 text-center text-white cursor-pointer rounded-lg border border-gray-700 bg-transparent p-1"
@@ -167,10 +196,10 @@ const Modal = ({ modal, setModal, action }) => {
                   <div className="flex-1 w-full rounded-lg bg-[#1b1b1b]">
                     <input
                       onChange={(e) => {
-                        setMenu({ ...menu, color: e.target?.value });
+                        setMenuData({ ...menuData, color: e.target?.value });
                       }}
                       name="color"
-                      value={menu.color}
+                      value={menuData.color}
                       type="color"
                       placeholder=""
                       id="color"
@@ -192,14 +221,14 @@ const Modal = ({ modal, setModal, action }) => {
                   <div className="flex text-lg  items-center rounded-lg p-3 py-5 font-medium bg-[#1b1b1b]">
                     <input
                       onChange={(e) => {
-                        setMenu({
-                          ...menu,
-                          dishes: { ...menu.dishes, name: e.target?.value },
+                        setMenuData({
+                          ...menuData,
+                          dishes: { ...menuData.dishes, name: e.target?.value },
                         });
                       }}
                       type="text"
                       name="name"
-                      value={menu.dishes.name}
+                      value={menuData.dishes.name}
                       required="true"
                       placeholder="Enter dish-name"
                       id="name"
@@ -215,17 +244,17 @@ const Modal = ({ modal, setModal, action }) => {
                       <div className="flex-1 text-lg  items-center rounded-lg p-3 py-5 font-medium bg-[#1b1b1b]">
                         <input
                           onChange={(e) => {
-                            setMenu({
-                              ...menu,
+                            setMenuData({
+                              ...menuData,
                               dishes: {
-                                ...menu.dishes,
+                                ...menuData.dishes,
                                 price: Number(e.target?.value),
                               },
                             });
                           }}
                           type="number"
                           name="price"
-                          value={menu.dishes.price}
+                          value={menuData.dishes.price}
                           required="true"
                           placeholder="Enter dish-price"
                           id="price"
@@ -242,17 +271,17 @@ const Modal = ({ modal, setModal, action }) => {
                       <div className="flex-1 text-lg  items-center rounded-lg p-3 py-5 font-medium bg-[#1b1b1b]">
                         <input
                           onChange={(e) => {
-                            setMenu({
-                              ...menu,
+                            setMenuData({
+                              ...menuData,
                               dishes: {
-                                ...menu.dishes,
+                                ...menuData.dishes,
                                 category: e.target?.value,
                               },
                             });
                           }}
                           type="text"
                           name="category"
-                          value={menu.dishes.category}
+                          value={menuData.dishes.category}
                           required="true"
                           placeholder="Enter dish-category"
                           id="category"
