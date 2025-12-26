@@ -68,6 +68,9 @@ const MeAPi = () => api.get("/users/me");
 const RefreshTokenApi = () => api.post("users/refreshTokn");
 const AddTableApi = (data) => api.post("tables/addTable", data);
 const GetTableApi = () => api.get("tables/getTables");
+const CreateRestaurantApi = (data) =>
+  api.post("restaurants/restaurantCreate", data);
+const CreateMenuApi = (data) => api.post("menus/createmenu", data);
 
 export {
   LoginApi,
@@ -77,6 +80,8 @@ export {
   RefreshTokenApi,
   AddTableApi,
   GetTableApi,
+  CreateRestaurantApi,
+  CreateMenuApi,
 };
 
 // 2) 401 হলে refresh করে retry

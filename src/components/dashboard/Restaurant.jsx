@@ -2,9 +2,17 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { setRestaurantInfo } from "../../redux/slices/restaurantSlice";
+import { useMutation } from "@tanstack/react-query";
+import { CreateRestaurantApi } from "../../https";
+import { useNavigate } from "react-router-dom";
 
-export default function CreateRestaurantModal({ setRestaurant }) {
+export default function CreateRestaurantModal({ restaurant, setRestaurant }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.setItem("open", restaurant);
+  }, [restaurant]);
 
   const [form, setForm] = useState({
     name: "",
@@ -47,7 +55,6 @@ export default function CreateRestaurantModal({ setRestaurant }) {
 
   const submit = (e) => {
     e.preventDefault();
-
     // ✅ minimal validation
     if (!form.name.trim()) return toast.error("name is required");
     if (!form.email.trim()) return toast.error("email is required");
@@ -65,27 +72,29 @@ export default function CreateRestaurantModal({ setRestaurant }) {
     if (Number.isNaN(tax) || tax < 0 || tax > 100)
       return toast.error("taxPercent must be 0-100");
 
-    // ✅ payload match schema shape
-    const payload = {
-      name: form.name.trim(),
-      contact: {
-        email: form.email.trim(),
-        phone: form.phone.trim(),
-      },
-      address: form.address.trim(),
-      status: form.status,
-      openingHours: { open: form.openingOpen, close: form.openingClose },
-      currency: form.currency,
-      taxPercent: tax,
-    };
+    const restData = new FormData();
+    restData.append("name", form?.name);
+    restData.append("contact[email]", form?.email);
+    restData.append("contact[phone]", form?.phone);
+    restData.append("address", form?.address);
+    restData.append("openingHours[close]", form?.openingClose);
+    restData.append("openingHours[open]", form?.openingOpen);
+    restData.append("currency", form?.currency);
+    restData.append("taxPercent", form?.taxPercent);
+    restData.append("status", form?.status);
+    restData.append("restaurantLogo", form?.logoFile);
 
-    dispatch(setRestaurantInfo(payload));
-
-    // এখানে তুমি FormData বানিয়ে logoFile সহ পাঠাবে
-    console.log("payload:", payload, "logoFile:", form.logoFile);
-
-    // toast.success("Ready to submit!");
+    restaurantMutation.mutate(restData);
   };
+
+  const restaurantMutation = useMutation({
+    mutationFn: (restData) => CreateRestaurantApi(restData),
+    onSuccess: (data) => {
+      console.log("response :", data);
+      toast.success("restaurant Created succefully");
+    },
+    onError: (err) => toast.error(err.response.data.message),
+  });
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">

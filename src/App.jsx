@@ -76,7 +76,7 @@ function Layout() {
           path="/dashboard"
           element={
             <ProtectedRoutes>
-              {role === "admin" ? <Dashbord /> : <Navigate to="/" replace />}
+              {role === "Admin" ? <Dashbord /> : <Navigate to="/" replace />}
             </ProtectedRoutes>
           }
         />

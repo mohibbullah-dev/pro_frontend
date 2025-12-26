@@ -9,6 +9,7 @@ const initialState = {
   avatar: "",
   isLogedIn: false,
   loading: true,
+  restaurantId: null,
 };
 
 const userSlice = createSlice({
@@ -19,6 +20,7 @@ const userSlice = createSlice({
       state.id = action.payload.id;
       state.name = action.payload?.name;
       state.email = action.payload?.email;
+      state.restaurantId = action.payload.restaurantId;
       state.phone = action.payload?.phone;
       state.role = action.payload?.role;
       state.avatar = action.payload?.avatar;
@@ -31,6 +33,7 @@ const userSlice = createSlice({
       state.email = "";
       state.phone = "";
       state.role = "";
+      state.restaurantId = "";
       state.avatar = "";
       state.isLogedIn = false;
       state.loading = false;

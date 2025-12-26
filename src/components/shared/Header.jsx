@@ -16,6 +16,7 @@ import { useState } from "react";
 
 const Header = () => {
   const userData = useSelector((state) => state.user);
+  console.log("userData :", userData.role);
   const dispath = useDispatch();
   const navigate = useNavigate();
   const [ring, setRing] = useState(false);
@@ -77,7 +78,7 @@ const Header = () => {
       {/* logged user's details  */}
 
       <div className="flex items-center gap-4">
-        {userData.role === "admin" && (
+        {userData?.role === "Admin" && (
           <div
             onClick={() => navigate("/dashboard")}
             className="bg-[#1f1f1f] rounded-[15px] p-3 cursor-pointer"

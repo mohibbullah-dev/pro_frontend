@@ -38,10 +38,14 @@ const Login = () => {
     onSuccess: (res) => {
       const token = res.data?.data?.accesstoken || res.data?.data?.accesstoken;
       console.log("res :", res);
-      const { _id, name, email, phone, role, avatar } = res.data?.data?.userObj;
+      const { _id, name, email, restaurantId, phone, role, avatar } =
+        res.data?.data?.userObj;
       dispath(setAccessToken(token));
-      dispath(setUser({ id: _id, name, email, phone, role, avatar }));
+      dispath(
+        setUser({ id: _id, name, email, restaurantId, phone, role, avatar })
+      );
       toast.success("Login succefully done");
+      console.log("res :", res);
       navigate("/");
     },
     onError: (err) => {

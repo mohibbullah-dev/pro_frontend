@@ -32,12 +32,7 @@ const Modal = ({ modal, setModal, action }) => {
     setTableData({ ...tableData, [e.target.name]: e.target.value });
   };
 
-  //   const menuInputHandler = (e) => {
-  //  setMenu({
-  //   ...menu, [e.target.name]
-  //  })
-  //   };
-
+  // table submit
   const SubmitTableData = () => {
     if (!tableData.tableNo || !tableData.seatNo)
       console.error("all fields are required");
@@ -45,7 +40,6 @@ const Modal = ({ modal, setModal, action }) => {
 
     TableMutation.mutate(tableData);
   };
-
   const TableMutation = useMutation({
     mutationFn: (tableData) => AddTableApi(tableData),
     onSuccess: (res) => {
@@ -56,14 +50,17 @@ const Modal = ({ modal, setModal, action }) => {
         seatNo: 0,
       });
       navigate("/table");
-      navigate(0);
+      setTimeout(() => {
+        navigate(0);
+      }, 1500);
     },
     onError: (err) => {
       toast.error(err.response.data.message);
     },
   });
 
-  const SubmitCatogoryData = () => {};
+  // menu submit
+  const SubmitMenuData = () => {};
   const SubmitDishesData = () => {};
 
   return (
@@ -275,8 +272,8 @@ const Modal = ({ modal, setModal, action }) => {
             onClick={
               action.action === "table"
                 ? SubmitTableData
-                : action.action === "category"
-                ? SubmitCatogoryData
+                : action.action === "menu"
+                ? SubmitMenuData
                 : SubmitDishesData
             }
             className="cursor-pointer w-full bg-[#f6B100] text-[#f5f5f5]
