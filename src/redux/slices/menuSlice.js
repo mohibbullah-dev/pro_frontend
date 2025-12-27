@@ -4,7 +4,7 @@ const initialState = {
   name: "",
   color: "",
   icon: "",
-  dishes: {},
+  dishes: [],
 };
 
 const menuSlice = createSlice({
@@ -21,7 +21,7 @@ const menuSlice = createSlice({
       state.name = "";
       state.color = "";
       state.icon = "";
-      state.dishes = {};
+      state.dishes = [];
     },
   },
 });

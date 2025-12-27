@@ -11,7 +11,7 @@ import MenuContainer from "../components/menu/MenuContainer";
 import { useSelector } from "react-redux";
 const Menu = () => {
   const customerData = useSelector((state) => state.customer);
-  console.log("customerData.tableNo :", customerData.tableNo);
+
   return (
     <section className="bg-[#1f1f1f] h-[calc(100vh-5rem)] overflow-hidden flex gap-3">
       <div className="flex-3">

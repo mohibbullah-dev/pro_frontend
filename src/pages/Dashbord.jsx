@@ -15,9 +15,10 @@ const Dashbord = () => {
   const [activeTab, setActiveTab] = useState(() => {
     return localStorage.getItem("dashbordTab") || "Metrics";
   });
-  const [restaurant, setRestaurant] = useState(() => {
-    return localStorage.getItem("open");
-  });
+  const [restaurant, setRestaurant] = useState(false);
+  // () => {
+  //   return localStorage.getItem("open");
+  // }
   const buttons = [
     { label: "Add Category", icon: <MdCategory />, action: "category" },
     { label: "Add Table", icon: <MdTableBar />, action: "table" },

@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateTable } from "../../redux/slices/customerSlice";
 import { FaLongArrowAltRight } from "react-icons/fa";
 
-const TableCard = ({ name, status, initial = "AM", key, seats }) => {
+const TableCard = ({ name, status, initial = "AM", seats }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -17,7 +17,6 @@ const TableCard = ({ name, status, initial = "AM", key, seats }) => {
   return (
     <div
       onClick={() => menuHandler(name)}
-      key={key}
       className="w-[300px] bg-[#262626] max-h-45 p-4 rounded-lg cursor-pointer hover:bg-[#2e2d2d]"
     >
       <div className="flex items-center justify-between px-1">

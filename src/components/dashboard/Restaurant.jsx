@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { setRestaurantInfo } from "../../redux/slices/restaurantSlice";
 import { useMutation } from "@tanstack/react-query";
 import { CreateRestaurantApi } from "../../https";
 import { useNavigate } from "react-router-dom";
@@ -10,9 +9,9 @@ export default function CreateRestaurantModal({ restaurant, setRestaurant }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    localStorage.setItem("open", restaurant);
-  }, [restaurant]);
+  // useEffect(() => {
+  //   localStorage.setItem("open", restaurant);
+  // }, [restaurant]);
 
   const [form, setForm] = useState({
     name: "",
@@ -20,8 +19,6 @@ export default function CreateRestaurantModal({ restaurant, setRestaurant }) {
     phone: "",
     address: "",
     logoFile: null,
-
-    // ✅ NEW FIELDS (match schema)
     status: "active",
     openingOpen: "10:00 AM",
     openingClose: "11:00 PM",
@@ -83,7 +80,6 @@ export default function CreateRestaurantModal({ restaurant, setRestaurant }) {
     restData.append("taxPercent", form?.taxPercent);
     restData.append("status", form?.status);
     restData.append("restaurantLogo", form?.logoFile);
-
     restaurantMutation.mutate(restData);
   };
 
